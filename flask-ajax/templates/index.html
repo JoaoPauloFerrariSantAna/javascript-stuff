@@ -6,19 +6,22 @@
     <title>Document</title>
 </head>
 <body>
-    <button id="updateMe">Click me</button>
-    {{ banana }}
+    <button id="clickMe">Click me</button>
+    <p id="updateMe">Pêra</p>
     <script>
 
-        document.getElementById("updateMe").addEventListener("click", makeRequest);
+        document.getElementById("clickMe").addEventListener("click", makeRequest);
 
         function makeRequest() {
             const xhr = new XMLHttpRequest();
 
-            xhr.open("GET", "http://127.0.0.1:5000/teste");
+            xhr.open("GET", "http://127.0.0.1:5000/teste?fruta=banana");
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
-            xhr.onload = () => console.log(xhr.response);
+            xhr.onload = () => {
+                const resp = JSON.parse(xhr.response)
+                document.getElementById("updateMe").innerText = resp["returnedAction"];
+            };
 
             xhr.send();
         }
